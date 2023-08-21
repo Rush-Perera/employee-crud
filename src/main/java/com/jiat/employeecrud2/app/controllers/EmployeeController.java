@@ -6,6 +6,7 @@ import com.jiat.employeecrud2.app.entity.Employee;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.sql.Date;
+import java.util.List;
 
 @Path("/employee")
 public class EmployeeController {
@@ -26,6 +27,22 @@ public class EmployeeController {
         } else {
             return "Employee not found.";
         }
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getAllEmployees() {
+        List<Employee> employees = employeeDAO.getAllEmployees();
+        StringBuilder result = new StringBuilder();
+        for (Employee employee : employees) {
+            result.append("Employee ID: ").append(employee.getId()).append("\n")
+                    .append("Name: ").append(employee.getName()).append("\n")
+                    .append("Position: ").append(employee.getPosition()).append("\n")
+                    .append("Department: ").append(employee.getDepartment()).append("\n")
+                    .append("Hire Date: ").append(employee.getHireDate()).append("\n")
+                    .append("Salary: ").append(employee.getSalary()).append("\n\n");
+        }
+        return result.toString();
     }
 
     @POST
